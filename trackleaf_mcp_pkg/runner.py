@@ -1,4 +1,5 @@
 import asyncio
+import os
 import sys
 from typing import Optional
 
@@ -10,7 +11,7 @@ from .server_tools import create_server
 
 
 def main(argv: Optional[list[str]] = None) -> int:
-    base_url = env("TRACKLEAF_BASE_URL")
+    base_url = os.environ.get("TRACKLEAF_BASE_URL", "https://www.api.trackleaf.in/")
     pat = env("TRACKLEAF_PAT")
 
     client = TrackleafCursorClient(base_url=base_url, pat=pat)

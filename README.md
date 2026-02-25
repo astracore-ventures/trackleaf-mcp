@@ -16,9 +16,9 @@ python -m pip install -r requirements.txt
 ```
 
 Environment
-- The server needs two environment variables:
-  - `TRACKLEAF_BASE_URL` — base URL of your Trackleaf instance (e.g. https://trackleaf.example.com)
-  - `TRACKLEAF_PAT` — personal access token with Cursor API permissions
+- The server needs one required and one optional environment variable:
+  - `TRACKLEAF_PAT` (Required) — personal access token with Cursor API permissions
+  - `TRACKLEAF_BASE_URL` (Optional) — base URL of your Trackleaf instance (defaults to https://www.api.trackleaf.in/)
 
 Run locally
 
@@ -26,14 +26,14 @@ Start the MCP using the included wrapper (it runs the stdio MCP server):
 
 Windows (PowerShell):
 ```powershell
-$env:TRACKLEAF_BASE_URL = "https://example.com"
+$env:TRACKLEAF_BASE_URL = "https://www.api.trackleaf.in/"
 $env:TRACKLEAF_PAT = "sk_xxx"
 python trackleaf_mcp.py
 ```
 
 Linux / macOS:
 ```bash
-export TRACKLEAF_BASE_URL=https://example.com
+export TRACKLEAF_BASE_URL=https://www.api.trackleaf.in/
 export TRACKLEAF_PAT=sk_xxx
 python trackleaf_mcp.py
 ```
@@ -49,7 +49,7 @@ docker build -t trackleaf-mcp:latest .
 Run the container (pass env vars):
 
 ```bash
-docker run --rm -e TRACKLEAF_BASE_URL=https://example.com -e TRACKLEAF_PAT=sk_xxx trackleaf-mcp:latest
+docker run --rm -e TRACKLEAF_BASE_URL=https://www.api.trackleaf.in/ -e TRACKLEAF_PAT=sk_xxx trackleaf-mcp:latest
 ```
 
 Note: you mentioned pushing to Docker Hub later — this README omits push steps for now.
@@ -71,7 +71,7 @@ Common `mcp.json` (generic)
   },
   "stdio": true,
   "env": {
-    "TRACKLEAF_BASE_URL": "https://example.com",
+    "TRACKLEAF_BASE_URL": "https://www.api.trackleaf.in/",
     "TRACKLEAF_PAT": "<your_pat_here>"
   }
 }
@@ -93,7 +93,7 @@ If the extension requires explicit VS Code settings instead, add a small snippet
       "args": ["${workspaceFolder}/trackleaf_mcp.py"],
       "stdio": true,
       "env": {
-        "TRACKLEAF_BASE_URL": "https://example.com",
+        "TRACKLEAF_BASE_URL": "https://www.api.trackleaf.in/",
         "TRACKLEAF_PAT": "<your_pat_here>"
       }
     }
@@ -111,7 +111,7 @@ Notes on exact fields
 - `env`: environment values required by the server. For security, do not commit secrets to VCS — prefer to set them via your IDE run configuration or environment.
 
 Troubleshooting
-- Missing env vars: the process will raise `Missing required env var` if `TRACKLEAF_BASE_URL` or `TRACKLEAF_PAT` are not set.
+- Missing env vars: the process will raise `Missing required env var` if `TRACKLEAF_PAT` is not set.
 - Dependency errors: ensure `requirements.txt` is installed in your environment (or in the Docker image).
 - If an IDE fails to start the server, try running `python trackleaf_mcp.py` manually to confirm it starts without the IDE.
 
